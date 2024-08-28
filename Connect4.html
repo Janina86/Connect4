@@ -1,1 +1,72 @@
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connect 4</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .board {
+            display: grid;
+            grid-template-columns: repeat(7, 50px);
+            grid-template-rows: repeat(6, 50px);
+            gap: 5px;
+            margin: 20px auto;
+            max-width: 380px;
+        }
+        .cell {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: #f8f9fa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 0 0 2px #ddd;
+            transition: background-color 0.3s ease;
+        }
+        .cell.yellow {
+            background-color: yellow;
+        }
+        .cell.red {
+            background-color: red;
+        }
+        .message {
+            margin: 20px;
+            text-align: center;
+            font-size: 1.5rem;
+        }
+        .button-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .player-inputs {
+            display: flex;
+            justify-content: space-around;
+            margin: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center">Connect 4</h1>
+        <div class="player-inputs">
+            <div>
+                <input type="text" id="player1-name" placeholder="Enter Player 1 Name" class="form-control mb-2">
+                <button class="btn btn-warning" id="set-player1">Set Player 1 (Yellow)</button>
+            </div>
+            <div>
+                <input type="text" id="player2-name" placeholder="Enter Player 2 Name" class="form-control mb-2">
+                <button class="btn btn-danger" id="set-player2">Set Player 2 (Red)</button>
+            </div>
+        </div>
+        <div class="message" id="winnerIs"></div>
+        <div class="board" id="board"></div>
+        <div class="button-container">
+            <button class="btn btn-primary" id="play-again" style="display: none;">Play Again</button>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
