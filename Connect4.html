@@ -54,17 +54,17 @@
         <div class="player-inputs">
             <div>
                 <input type="text" id="player1-name" placeholder="Enter Player 1 Name" class="form-control mb-2">
-                <button class="btn btn-warning" id="set-player1">Set Player 1 (Yellow)</button>
+                <button class="btn btn-warning" id="set-player1" onclick="setPlayerName('yellow')">Set Player 1 (Yellow)</button>
             </div>
             <div>
                 <input type="text" id="player2-name" placeholder="Enter Player 2 Name" class="form-control mb-2">
-                <button class="btn btn-danger" id="set-player2">Set Player 2 (Red)</button>
+                <button class="btn btn-danger" id="set-player2" onclick="setPlayerName('red')">Set Player 2 (Red)</button>
             </div>
         </div>
         <div class="message" id="winnerIs"></div>
         <div class="board" id="board"></div>
         <div class="button-container">
-            <button class="btn btn-primary" id="play-again" style="display: none;">Play Again</button>
+            <button class="btn btn-primary" id="play-again" onclick="resetGame()" style="display: none;">Play Again</button>
         </div>
     </div>
     <script src="script.js"></script>
