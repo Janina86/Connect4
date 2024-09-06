@@ -1,32 +1,29 @@
+const cols = 7;
+const rows = 6;
+const disks = 4;
+
 let currentPlayer = 'yellow';
 let playerNames = { yellow: 'Player 1', red: 'Player 2' };
-let boardState = Array(7).fill().map(() => Array(6).fill(''));
+let boardState = Array(cols).fill().map(() => Array(rows).fill(''));
 let gameActive = true;
 
 function initializeGame() {
     const board = document.getElementById('board');
     board.innerHTML = '';
-    for (let col = 0; col < 7; ++col) {
-        for (let row = 0; row < 6; ++row) {
+    for (let col = 0; col < cols; ++col) {
+        for (let row = 0; row < rows; ++row) {
             const cell = document.createElement('div');
             cell.className = 'cell';
             cell.dataset.col = col;
             cell.dataset.row = row;
+            cell.onclick = cellColouring;
             board.appendChild(cell);
         }
     }
     document.getElementById('play-again').style.display = 'none';
-    const cells = document.querySelectorAll('.cell');
-    cells.forEach(cell => cell.addEventListener('click', handleCellClick));
-    document.getElementById('set-player1').addEventListener('click', function() {
-        setPlayerName('yellow');
-    });
-    document.getElementById('set-player2').addEventListener('click', function() {
-        setPlayerName('red');
-    });
 }
 
-function handleCellClick() {
+function cellColouring() {
     const col = parseInt(this.dataset.col);
     if (!gameActive) {
         return;
@@ -40,14 +37,18 @@ function handleCellClick() {
     cell.classList.add(currentPlayer);
     if (checkForWinner()) {
         endGame(playerNames[currentPlayer] + " WINS!");
-    } else if (boardState.flat().every(function(cell) { return cell; })) {
+    } else if (boardState.flat().every(cell => cell)) {
         endGame("It's a Tie!");
     } else {
-        if (currentPlayer === 'yellow') {
-            currentPlayer = 'red';
-        } else {
-            currentPlayer = 'yellow';
-        }
+        changePlayer();
+    }
+}
+
+function changePlayer() {
+    if (currentPlayer === 'yellow') {
+        currentPlayer = 'red';
+    } else {
+        currentPlayer = 'yellow';
     }
 }
 
@@ -67,8 +68,8 @@ function checkForWinner() {
         { dRow: 1, dCol: 1 },
         { dRow: 1, dCol: -1 }
     ];
-    for (let col = 0; col < 7; ++col) {
-        for (let row = 0; row < 6; ++row) {
+    for (let col = 0; col < cols; ++col) {
+        for (let row = 0; row < rows; ++row) {
             const player = boardState[col][row];
             if (player === '') {
                 continue;
@@ -78,17 +79,17 @@ function checkForWinner() {
                 const dCol = directions[directionIndex].dCol;
                 let count = 0;
                 let foundSequence = true;
-                for (let i = 0; i < 4; ++i) {
+                for (let i = 0; i < disks; ++i) {
                     const newRow = row + i * dRow;
                     const newCol = col + i * dCol;
-                    if (newRow < 0 || newRow >= 6 || newCol < 0 || newCol >= 7 || boardState[newCol][newRow] !== player) {
+                    if (newRow < 0 || newRow >= rows || newCol < 0 || newCol >= cols || boardState[newCol][newRow] !== player) {
                         foundSequence = false;
                     }
                     if (foundSequence) {
                         ++count;
                     }
                 }
-                if (count === 4) {
+                if (count === disks) {
                     return true;
                 }
             }
@@ -104,7 +105,7 @@ function endGame(message) {
 }
 
 function resetGame() {
-    boardState = Array(7).fill().map(() => Array(6).fill(''));
+    boardState = Array(cols).fill().map(() => Array(rows).fill(''));
     currentPlayer = 'yellow';
     gameActive = true;
     document.getElementById('winnerIs').innerText = '';
@@ -112,8 +113,6 @@ function resetGame() {
     const cells = document.querySelectorAll('.cell');
     cells.forEach(cell => cell.classList.remove('yellow', 'red'));
 }
-
-document.getElementById('play-again').addEventListener('click', resetGame);
 
 function setPlayerName(color) {
     let inputId;
