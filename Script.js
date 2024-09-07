@@ -3,8 +3,8 @@ const rows = 6;
 const disks = 4;
 
 let currentPlayer = 'yellow';
-let playerNames = { yellow: 'Player 1', red: 'Player 2' };
-let boardState = Array(cols).fill().map(() => Array(rows).fill(''));
+const playerNames = { yellow: 'Player 1', red: 'Player 2' };
+const boardState = Array(cols).fill().map(() => Array(rows).fill(''));
 let gameActive = true;
 
 function initializeGame() {
@@ -16,14 +16,14 @@ function initializeGame() {
             cell.className = 'cell';
             cell.dataset.col = col;
             cell.dataset.row = row;
-            cell.onclick = cellColouring;
+            cell.onclick = cellColoring;
             board.appendChild(cell);
         }
     }
     document.getElementById('play-again').style.display = 'none';
 }
 
-function cellColouring() {
+function cellColoring() {
     const col = parseInt(this.dataset.col);
     if (!gameActive) {
         return;
@@ -33,7 +33,9 @@ function cellColouring() {
         return;
     }
     boardState[col][row] = currentPlayer;
-    const cell = document.querySelector(`.cell[data-col="${col}"][data-row="${row}"]`);
+    const cell = document.querySelector(
+        `.cell[data-col="${col}"][data-row="${row}"]`
+    );
     cell.classList.add(currentPlayer);
     if (checkForWinner()) {
         endGame(playerNames[currentPlayer] + " WINS!");
@@ -74,15 +76,16 @@ function checkForWinner() {
             if (player === '') {
                 continue;
             }
-            for (let directionIndex = 0; directionIndex < directions.length; ++directionIndex) {
-                const dRow = directions[directionIndex].dRow;
-                const dCol = directions[directionIndex].dCol;
+            for (let directionIndex = 0; 
+                directionIndex < directions.length; ++directionIndex) {
+                const { dRow, dCol } = directions[directionIndex];
                 let count = 0;
                 let foundSequence = true;
                 for (let i = 0; i < disks; ++i) {
                     const newRow = row + i * dRow;
                     const newCol = col + i * dCol;
-                    if (newRow < 0 || newRow >= rows || newCol < 0 || newCol >= cols || boardState[newCol][newRow] !== player) {
+                    if (newRow < 0 || newRow >= rows || newCol < 0 || 
+                        newCol >= cols || boardState[newCol][newRow] !== player) {
                         foundSequence = false;
                     }
                     if (foundSequence) {
@@ -105,7 +108,7 @@ function endGame(message) {
 }
 
 function resetGame() {
-    boardState = Array(cols).fill().map(() => Array(rows).fill(''));
+    boardState.fill().map(() => Array(rows).fill(''));
     currentPlayer = 'yellow';
     gameActive = true;
     document.getElementById('winnerIs').innerText = '';
@@ -124,7 +127,8 @@ function setPlayerName(color) {
     const name = document.getElementById(inputId).value.trim();
     if (name) {
         playerNames[color] = name;
-        alert(color.charAt(0).toUpperCase() + color.slice(1) + " player's name set to: " + name);
+        alert(color.charAt(0).toUpperCase() + color.slice(1) + 
+            " player's name set to: " + name);
     }
 }
 
